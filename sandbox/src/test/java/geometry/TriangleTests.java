@@ -16,16 +16,17 @@ public class TriangleTests {
     private static double expectedArea = sqrt(p * (p - a) * (p - b) * (p - c));
 
     @Test
-    public void calculatePerimeter() {
-
-        double result = Triangle.perimeter(a, b, c);
-        Assertions.assertEquals(expectedPerimeter, result);
+    void calculatePerimeter() {
+        var p = new Triangle(a, b, c);
+        double actualPerimeter = p.perimeter();
+        Assertions.assertEquals(expectedPerimeter, actualPerimeter);
     }
 
     @Test
     void calculateArea() {
 
-        double result = Triangle.area(a, b, c);
-        Assertions.assertEquals(expectedArea, result);
+        var s = new Triangle(a, b, c);
+        double actualArea = s.area();
+        Assertions.assertEquals(expectedArea, actualArea);
     }
 }
