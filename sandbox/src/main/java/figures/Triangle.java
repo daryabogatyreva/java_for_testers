@@ -1,8 +1,59 @@
 package figures;
 
+import java.util.Arrays;
+
 import static java.lang.Math.sqrt;
 
 public record Triangle(double a, double b, double c) {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Triangle triangle = (Triangle) o;
+        double[] sides1 = {this.a, this.b, this.c};
+        double[] sides2 = {triangle.a, triangle.b, triangle.c};
+        Arrays.sort(sides1);
+        Arrays.sort(sides2);
+        return Arrays.equals(sides1, sides2);
+
+//        return (Double.compare(this.a, triangle.a) == 0 &&
+//                Double.compare(this.b, triangle.b) == 0 &&
+//                Double.compare(this.c, triangle.c) == 0) ||
+//
+//                (Double.compare(this.a, triangle.a) == 0 &&
+//                        Double.compare(this.b, triangle.c) == 0 &&
+//                        Double.compare(this.c, triangle.b) == 0) ||
+//
+//                (Double.compare(this.a, triangle.a) == 0 &&
+//                        Double.compare(this.c, triangle.b) == 0 &&
+//                        Double.compare(this.b, triangle.c) == 0) ||
+//
+//        (Double.compare(this.a, triangle.b) == 0 &&
+//                Double.compare(this.b, triangle.a) == 0 &&
+//                Double.compare(this.c, triangle.c) == 0) ||
+//
+//                (Double.compare(this.b, triangle.a) == 0 &&
+//                        Double.compare(this.a, triangle.b) == 0 &&
+//                        Double.compare(this.c, triangle.c) == 0) ||
+//
+//                (Double.compare(this.a, triangle.c) == 0 &&
+//                        Double.compare(this.b, triangle.b) == 0 &&
+//                        Double.compare(this.c, triangle.a) == 0) ||
+//
+//                (Double.compare(this.c, triangle.a) == 0 &&
+//                        Double.compare(this.b, triangle.b) == 0 &&
+//                        Double.compare(this.a, triangle.c) == 0);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Double.hashCode(a);
+        result = 31 * result + Double.hashCode(b);
+        result = 31 * result + Double.hashCode(c);
+        return result;
+    }
 
     public void check() {
         if (a < 0 || b < 0 || c < 0) {
