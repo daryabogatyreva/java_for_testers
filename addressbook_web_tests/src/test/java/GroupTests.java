@@ -11,7 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class GroupCreationTests {
+public class GroupTests {
     private static WebDriver driver;
 
     @BeforeEach
