@@ -17,34 +17,6 @@ public record Triangle(double a, double b, double c) {
         Arrays.sort(sides1);
         Arrays.sort(sides2);
         return Arrays.equals(sides1, sides2);
-
-//        return (Double.compare(this.a, triangle.a) == 0 &&
-//                Double.compare(this.b, triangle.b) == 0 &&
-//                Double.compare(this.c, triangle.c) == 0) ||
-//
-//                (Double.compare(this.a, triangle.a) == 0 &&
-//                        Double.compare(this.b, triangle.c) == 0 &&
-//                        Double.compare(this.c, triangle.b) == 0) ||
-//
-//                (Double.compare(this.a, triangle.a) == 0 &&
-//                        Double.compare(this.c, triangle.b) == 0 &&
-//                        Double.compare(this.b, triangle.c) == 0) ||
-//
-//        (Double.compare(this.a, triangle.b) == 0 &&
-//                Double.compare(this.b, triangle.a) == 0 &&
-//                Double.compare(this.c, triangle.c) == 0) ||
-//
-//                (Double.compare(this.b, triangle.a) == 0 &&
-//                        Double.compare(this.a, triangle.b) == 0 &&
-//                        Double.compare(this.c, triangle.c) == 0) ||
-//
-//                (Double.compare(this.a, triangle.c) == 0 &&
-//                        Double.compare(this.b, triangle.b) == 0 &&
-//                        Double.compare(this.c, triangle.a) == 0) ||
-//
-//                (Double.compare(this.c, triangle.a) == 0 &&
-//                        Double.compare(this.b, triangle.b) == 0 &&
-//                        Double.compare(this.a, triangle.c) == 0);
     }
 
     @Override
