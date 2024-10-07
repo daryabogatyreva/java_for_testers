@@ -33,7 +33,7 @@ public class GroupHelper extends HelperBase {
     }
 
     public void openGroupsPage() {
-        if (manager.isElementPresent(By.name("new"))) {
+        if (!manager.isElementPresent(By.name("new"))) {
             click(By.linkText("groups"));
         }
     }

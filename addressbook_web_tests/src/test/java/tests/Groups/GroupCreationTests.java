@@ -1,4 +1,4 @@
-package tests;
+package tests.Groups;
 
 import model.GroupDate;
 import org.junit.jupiter.api.Test;

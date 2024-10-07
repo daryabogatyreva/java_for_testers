@@ -11,6 +11,7 @@ public class ApplicationManager {
     protected WebDriver driver;
     private LoginHelper session;
     private GroupHelper groups;
+    private ContactHelper contacts;
 
     public void init(String browser) {
         if (driver == null) {
@@ -42,12 +43,19 @@ public class ApplicationManager {
         return groups;
     }
 
+    public ContactHelper contacts() {
+        if (contacts == null) {
+            contacts = new ContactHelper(this);
+        }
+        return contacts;
+    }
+
     public boolean isElementPresent(By locator) {
         try {
             driver.findElement(locator);
-            return false;
-        } catch (NoSuchElementException exception) {
             return true;
+        } catch (NoSuchElementException exception) {
+            return false;
         }
     }
 }

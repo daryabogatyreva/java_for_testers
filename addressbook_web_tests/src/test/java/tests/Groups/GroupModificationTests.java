@@ -1,16 +1,15 @@
-package tests;
+package tests.Groups;
 
 import model.GroupDate;
 import org.junit.jupiter.api.Test;
 
-
-public class GroupRemovalTests extends TestBase {
+public class GroupModificationTests extends TestBase {
 
     @Test
-    public void canDeleteGroup() {
+    void canModifyGroup() {
         if (!app.groups().isGroupPresent()) {
             app.groups().createGroup(new GroupDate("name", "header", "footer"));
         }
-        app.groups().deleteGroup();
+        app.groups().modifyGroup(new GroupDate().withName("modified name"));
     }
 }
