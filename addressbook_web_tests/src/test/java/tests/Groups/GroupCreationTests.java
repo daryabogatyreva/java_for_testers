@@ -8,11 +8,11 @@ public class GroupCreationTests extends TestBase {
 
     @Test
     public void canCreateGroup() {
-        TestBase.app.groups().createGroup(new GroupDate("name", "header", "footer"));
+        app.groups().createGroup(new GroupDate("name", "header", "footer"));
     }
 
     @Test
     public void canCreateGroupWithNameOnly() {
-        TestBase.app.groups().createGroup(new GroupDate().withName("name"));
+        app.groups().createGroup(new GroupDate().withName("name"));
     }
 }
