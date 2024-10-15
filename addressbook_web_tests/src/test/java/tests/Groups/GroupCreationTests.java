@@ -19,4 +19,17 @@ public class GroupCreationTests extends TestBase {
     public void canCreateGroupWithNameOnly() {
         app.groups().createGroup(new GroupDate().withName("name"));
     }
+
+    @Test
+    public void canCreateMultipleGroups() {
+        int n = 5;
+        int groupCount = app.groups().getCount();
+
+        for (int i = 0; i < n; i ++) { //i - счетчик
+        app.groups().createGroup(new GroupDate(randomString(i), "header", "footer"));
+        }
+
+        int newGroupCount = app.groups().getCount();
+        Assertions.assertEquals(groupCount + n, newGroupCount);
+    }
 }
