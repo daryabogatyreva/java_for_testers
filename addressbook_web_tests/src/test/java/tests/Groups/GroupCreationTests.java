@@ -2,34 +2,51 @@ package tests.Groups;
 
 import model.GroupDate;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GroupCreationTests extends TestBase {
 
-    @Test
-    public void canCreateGroup() {
+    public static List<GroupDate> groupProvider() {
+        var result = new ArrayList<GroupDate>();
+        for (var name : List.of("", "group name")) {
+            for (var header : List.of("", "group header")) {
+                for (var footer : List.of("", "group footer")) {
+                    result.add(new GroupDate(name, header, footer));
+                }
+            }
+        }
+        for (int i = 0; i < 5; i++) {
+            result.add(new GroupDate(randomString(i), randomString(i), randomString(i)));
+        }
+        return result;
+    }
+
+    @ParameterizedTest
+    @MethodSource("groupProvider")
+    public void canCreateMultipleGroups(GroupDate group) {
         int groupCount = app.groups().getCount();
-        app.groups().createGroup(new GroupDate("name", "header", "footer"));
+        app.groups().createGroup(group);
         int newGroupCount = app.groups().getCount();
         Assertions.assertEquals(groupCount + 1, newGroupCount);
     }
 
-    @Test
-    public void canCreateGroupWithNameOnly() {
-        app.groups().createGroup(new GroupDate().withName("name"));
+    public static List<GroupDate> negativeGroupProvider() {
+        var result = new ArrayList<GroupDate>(List.of(
+                new GroupDate("group name'", "", "")));
+        return result;
     }
 
-    @Test
-    public void canCreateMultipleGroups() {
-        int n = 5;
+    @ParameterizedTest
+    @MethodSource("negativeGroupProvider")
+    public void canNotCreateGroup(GroupDate group) {
         int groupCount = app.groups().getCount();
-
-        for (int i = 0; i < n; i ++) { //i - счетчик
-        app.groups().createGroup(new GroupDate(randomString(i), "header", "footer"));
-        }
-
+        app.groups().createGroup(group);
         int newGroupCount = app.groups().getCount();
-        Assertions.assertEquals(groupCount + n, newGroupCount);
+        Assertions.assertEquals(groupCount, newGroupCount);
     }
 }
