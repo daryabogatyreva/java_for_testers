@@ -13,14 +13,14 @@ public class GroupHelper extends HelperBase {
         initGroupCreation();
         fillGroupForm(group);
         submitGroupCreation();
-        returntGroupsPage();
+        returnGroupsPage();
     }
 
     public void deleteGroup() {
         openGroupsPage();
         selectGroup();
         removeSelectedGroups();
-        returntGroupsPage();
+        returnGroupsPage();
     }
 
     public void modifyGroup(GroupDate modifyGroup) {
@@ -29,7 +29,7 @@ public class GroupHelper extends HelperBase {
         initGroupModification();
         fillGroupForm(modifyGroup);
         submitGroupModification();
-        returntGroupsPage();
+        returnGroupsPage();
     }
 
     public void openGroupsPage() {
@@ -50,7 +50,7 @@ public class GroupHelper extends HelperBase {
         click(By.name("delete"));
     }
     
-    private void returntGroupsPage() {
+    private void returnGroupsPage() {
         click(By.linkText("group page"));
     }
 
