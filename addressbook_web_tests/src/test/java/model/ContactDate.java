@@ -1,6 +1,6 @@
 package model;
 
-public record ContactDate (String id, String firstName, String middleName, String lastName, String nickName) {
+public record ContactDate (String id, String firstName, String lastName, String middleName, String nickName) {
 
     public ContactDate() {
         this("", "", "", "", "");
@@ -14,14 +14,14 @@ public record ContactDate (String id, String firstName, String middleName, Strin
     }
 
     public ContactDate withMiddleName (String middleName) {
-        return new ContactDate (this.id, middleName, this.lastName, this.firstName, this.nickName);
+        return new ContactDate (this.id, this.firstName, this.lastName, middleName, this.nickName);
     }
 
     public ContactDate withLastName (String lastName) {
-        return new ContactDate (this.id, lastName, this.firstName, this.middleName, this.nickName);
+        return new ContactDate (this.id, this.firstName, lastName, this.middleName, this.nickName);
     }
 
     public ContactDate withNickName (String nickName) {
-        return new ContactDate (this.id, nickName, this.lastName, this.middleName, this.firstName);
+        return new ContactDate (this.id, this.firstName, this.lastName, this.middleName, nickName);
     }
 }

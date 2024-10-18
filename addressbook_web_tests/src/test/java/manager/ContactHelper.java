@@ -62,6 +62,14 @@ public class ContactHelper extends HelperBase {
         return manager.driver.findElements(By.name("selected[]")).size();
     }
 
+    private void initContactModification() {
+        click(By.xpath("//img[@alt='Edit']"));
+    }
+
+    private void submitContactModification() {
+        click(By.name("update"));
+    }
+
     public List<ContactDate> getList() {
         var contacts = new ArrayList<ContactDate>();
         var rows = manager.driver.findElements(By.name("entry"));
@@ -74,5 +82,13 @@ public class ContactHelper extends HelperBase {
             contacts.add(new ContactDate().withId(id).withFirstName(firstName).withLastName(lastName));
         }
         return contacts;
+    }
+
+    public void modifyContact(ContactDate contact, ContactDate modifyContact) {
+        selectContact(contact);
+        initContactModification();
+        fillContactForm(modifyContact);
+        submitContactModification();
+        openHomePage();
     }
 }
