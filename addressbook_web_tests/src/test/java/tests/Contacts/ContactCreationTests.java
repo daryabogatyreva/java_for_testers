@@ -14,8 +14,8 @@ public class ContactCreationTests extends TestBase {
 
     public static List<ContactDate> contactProvider() {
         var result = new ArrayList<ContactDate>();
-        for (var firstName : List.of("", "contact name")) {
-            for (var lastName : List.of("", "contact lastName")) {
+        for (var firstName : List.of("", "name")) {
+            for (var lastName : List.of("", "lastName")) {
                         result.add(new ContactDate()
                                 .withFirstName(firstName)
                                 .withLastName(lastName)
@@ -23,12 +23,12 @@ public class ContactCreationTests extends TestBase {
                                 .withNickName(""));
                     }
                 }
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 20; i++) {
             result.add(new ContactDate()
                     .withFirstName(randomString(i))
                     .withLastName(randomString(i))
-                    .withMiddleName("")
-                    .withNickName(""));
+                    .withMiddleName(randomString(i))
+                    .withNickName(randomString(i)));
         }
         return result;
     }
