@@ -3,6 +3,9 @@ package manager;
 import model.ContactDate;
 import org.openqa.selenium.By;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ContactHelper extends HelperBase {
 
     public ContactHelper(ApplicationManager manager) {
@@ -15,9 +18,9 @@ public class ContactHelper extends HelperBase {
         openHomePage();
     }
 
-    public void deleteContact() {
+    public void deleteContact(ContactDate contact) {
         openHomePage();
-        selectContact();
+        selectContact(contact);
         removeSelectedContacts();
         openHomePage();
     }
@@ -26,8 +29,8 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//input[@value=\'Delete\']"));
     }
 
-    private void selectContact() {
-        click(By.name("selected[]"));
+    private void selectContact(ContactDate contact) {
+        click(By.cssSelector(String.format("input[value='%s']", contact.id())));
     }
 
     private void openHomePage() {
@@ -59,16 +62,17 @@ public class ContactHelper extends HelperBase {
         return manager.driver.findElements(By.name("selected[]")).size();
     }
 
-    public void deleteAllContacts() {
-        openHomePage();
-        selectAllContacts();
-        removeSelectedContacts();
-    }
-
-    private void selectAllContacts() {
-        var checkboxes = manager.driver.findElements(By.name("selected[]"));
-        for (var checkbox : checkboxes) {
-            checkbox.click();
+    public List<ContactDate> getList() {
+        var contacts = new ArrayList<ContactDate>();
+        var rows = manager.driver.findElements(By.name("entry"));
+        for (var row : rows) {
+            var cells = row.findElements(By.tagName("td"));
+            var firstName = cells.get(2).getText();
+            var lastName = cells.get(1).getText();
+            var checkbox = row.findElement(By.name("selected[]"));
+            var id = checkbox.getAttribute("id");
+            contacts.add(new ContactDate().withId(id).withFirstName(firstName).withLastName(lastName));
         }
+        return contacts;
     }
 }
