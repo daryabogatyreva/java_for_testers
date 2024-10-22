@@ -46,15 +46,11 @@ public class ContactHelper extends HelperBase {
         type(By.name("middlename"), contact.middleName());
         type(By.name("lastname"), contact.lastName());
         type(By.name("nickname"), contact.nickName());
+        attach(By.name("photo"), contact.photo());
     }
 
     private void openNewContactPage() {
         click(By.linkText("add new"));
-    }
-
-    public boolean isContactPresent() {
-        openHomePage();
-        return manager.isElementPresent(By.name("selected[]"));
     }
 
     public int getCount() {

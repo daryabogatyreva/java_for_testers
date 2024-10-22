@@ -3,7 +3,7 @@ package tests.Contacts;
 import model.ContactDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import tests.Groups.TestBase;
+import tests.TestBase;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,7 +14,7 @@ public class ContactModificationTests extends TestBase {
     void canModifyContact() {
         if (app.contacts().getCount() == 0) {
             app.contacts().createContact(new ContactDate(
-                    "", "FName", "LName", "MName", "NName"));
+                    "", "FName", "LName", "MName", "NName", ""));
         }
         var oldContacts = app.contacts().getList();
         var rnd = new Random();
