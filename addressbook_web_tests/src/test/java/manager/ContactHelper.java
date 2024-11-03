@@ -6,12 +6,20 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ContactHelper extends HelperBase {
 
     public ContactHelper(ApplicationManager manager) {
         super(manager);
+    }
+
+    public static Comparator<ContactDate> getContactDateComparator() {
+        Comparator<ContactDate> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        return compareById;
     }
 
     public void create(ContactDate contact, GroupDate group) {
@@ -61,11 +69,6 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-    public int getCount() {
-        openHomePage();
-        return manager.driver.findElements(By.name("selected[]")).size();
-    }
-
     private void initContactModification(ContactDate contact) {
         click(By.cssSelector(String.format("[href = 'edit.php?id=%s']", contact.id())));
     }
@@ -93,5 +96,20 @@ public class ContactHelper extends HelperBase {
         fillContactForm(modifyContact);
         submitContactModification();
         openHomePage();
+    }
+
+    public void deleteContactFromGroup(ContactDate contact, GroupDate group) {
+        openHomePage();
+        selectGroupFromList(group);
+        selectContact(contact);
+        removeFromGroup();
+    }
+
+    private void removeFromGroup() {
+        click(By.name("remove"));
+    }
+
+    private void selectGroupFromList(GroupDate group) {
+        new Select(manager.driver.findElement(By.name("group"))).selectByValue(group.id());
     }
 }

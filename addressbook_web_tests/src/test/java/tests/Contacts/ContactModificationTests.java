@@ -9,6 +9,8 @@ import java.util.Comparator;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import static manager.ContactHelper.getContactDateComparator;
+
 public class ContactModificationTests extends TestBase {
     @Test
     void canModifyContact() {
@@ -29,11 +31,9 @@ public class ContactModificationTests extends TestBase {
         oldContacts = oldContacts.stream()
                 .map(c -> c.withPhoto(""))
                 .collect(Collectors.toList());
-        Comparator<ContactDate> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
+        Comparator<ContactDate> compareById = getContactDateComparator();
         newContacts.sort(compareById);
         oldContacts.sort(compareById);
-            Assertions.assertEquals(newContacts, oldContacts);
-        }
+        Assertions.assertEquals(newContacts, oldContacts);
     }
+}

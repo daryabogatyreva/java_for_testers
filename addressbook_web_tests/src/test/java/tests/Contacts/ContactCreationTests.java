@@ -3,6 +3,7 @@ package tests.Contacts;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.Common;
+import manager.ContactHelper;
 import model.ContactDate;
 import model.GroupDate;
 import org.junit.jupiter.api.Assertions;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import static manager.ContactHelper.getContactDateComparator;
 
 public class ContactCreationTests extends TestBase {
 
@@ -61,9 +63,7 @@ public class ContactCreationTests extends TestBase {
         newContactList = newContactList.stream()
                 .map(c -> c.withPhoto(""))
                 .collect(Collectors.toList());
-        Comparator<ContactDate> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
+        Comparator<ContactDate> compareById = getContactDateComparator();
         oldContactList.sort(compareById);
         newContactList.sort(compareById);
         var expectedList = new ArrayList<>(oldContactList);
@@ -86,6 +86,16 @@ public class ContactCreationTests extends TestBase {
         var oldRelated = app.hbm().getContactsInGroup(group);
         app.contacts().create(contact, group);
         var newRelated = app.hbm().getContactsInGroup(group);
+        Comparator<ContactDate> compareById = getContactDateComparator();
+        oldRelated.sort(compareById);
+        newRelated.sort(compareById);
+        oldRelated = oldRelated.stream()
+                .map(c -> c.withPhoto(""))
+                .collect(Collectors.toList());
+        newRelated = newRelated.stream()
+                .map(c -> c.withPhoto(""))
+                .collect(Collectors.toList());
         Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
     }
+
 }
