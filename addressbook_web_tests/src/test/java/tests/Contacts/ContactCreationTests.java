@@ -6,6 +6,7 @@ import common.Common;
 import model.ContactDate;
 import model.GroupDate;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import tests.TestBase;
@@ -16,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ContactCreationTests extends TestBase {
 
@@ -50,11 +52,15 @@ public class ContactCreationTests extends TestBase {
     @ParameterizedTest
     @MethodSource("contactProvider")
     public void canCreateMultipleContacts(ContactDate contact) {
-        var oldContactList = app.contacts().getList();
-        app.contacts().createContact(contact);
-        var newContactList = app.contacts().getList();
-        oldContactList.forEach(c -> c.withPhoto(""));
-        newContactList.forEach(c -> c.withPhoto(""));
+        var oldContactList = app.hbm().getContactList();
+        app.hbm().createContact(contact);
+        var newContactList = app.hbm().getContactList();
+        oldContactList = oldContactList.stream()
+                .map(c -> c.withPhoto(""))
+                .collect(Collectors.toList());
+        newContactList = newContactList.stream()
+                .map(c -> c.withPhoto(""))
+                .collect(Collectors.toList());
         Comparator<ContactDate> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
@@ -63,9 +69,23 @@ public class ContactCreationTests extends TestBase {
         var expectedList = new ArrayList<>(oldContactList);
         expectedList.add(contact
                 .withId(newContactList.get(newContactList.size() - 1).id())
-                .withMiddleName("")
-                .withNickName("")
                 .withPhoto(""));
         Assertions.assertEquals(newContactList, expectedList);
+    }
+
+    @Test
+    public void canCreateContactInGroup() {
+        var contact = new ContactDate()
+                .withFirstName(Common.randomString(5))
+                .withLastName(Common.randomString(5))
+                .withPhoto(randomFile("src/test/resources/images"));
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupDate("", "name", "header", "footer"));
+        }
+        var group = app.hbm().getGroupList().get(0);
+        var oldRelated = app.hbm().getContactsInGroup(group);
+        app.contacts().create(contact, group);
+        var newRelated = app.hbm().getContactsInGroup(group);
+        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
     }
 }
