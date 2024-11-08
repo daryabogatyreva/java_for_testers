@@ -21,9 +21,10 @@ public class ContactRecord {
     public String company = "компания";
     public String title = "название";
     public String address = "-";
-    public String home = "-";
-    public String mobile = "-";
-    public String work = "-";
+    public String home;
+    public String mobile;
+    public String work;
+    public String phone2;
     public String fax = "-";
     public String email = "-";
     public String email2 = "-";

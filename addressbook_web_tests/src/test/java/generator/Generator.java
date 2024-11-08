@@ -15,6 +15,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static tests.TestBase.randomFile;
 
@@ -36,9 +39,9 @@ public class Generator {
 
         var generator = new Generator();
         JCommander.newBuilder()
-                .addObject(generator)
-                .build()
-                .parse(args);
+                  .addObject(generator)
+                  .build()
+                  .parse(args);
         generator.run();
     }
 
@@ -57,27 +60,40 @@ public class Generator {
         }
     }
 
+    private Object generateData(Supplier<Object> dataSupplier) {
+        return Stream.generate(dataSupplier).limit(count).collect(Collectors.toList());
+    }
+
     private Object generateGroups() {
-        var result = new ArrayList<GroupDate>();
-        for (int i = 0; i < count; i++) {
-            result.add(new GroupDate()
-                    .withName(Common.randomString(i))
-                    .withFooter(Common.randomString(i))
-                    .withHeader(Common.randomString(i)));
-        }
-        return result;
+        return generateData(() -> new GroupDate()
+                .withName(Common.randomString(6))
+                .withFooter(Common.randomString(6))
+                .withHeader(Common.randomString(6)));
+//        var result = new ArrayList<GroupDate>();
+//        for (int i = 0; i < count; i++) {
+//            result.add(new GroupDate()
+//                               .withName(Common.randomString(i))
+//                               .withFooter(Common.randomString(i))
+//                               .withHeader(Common.randomString(i)));
+//        }
+//        return result;
     }
 
     private Object generateContacts() {
-        var result = new ArrayList<ContactDate>();
-        for (int i = 0; i < count; i++) {
-            result.add(new ContactDate()
-                    .withFirstName(Common.randomString(i))
-                    .withLastName(Common.randomString(i))
-                    .withMiddleName(Common.randomString(i))
-                    .withPhoto(randomFile("src/test/resources/images")));
-        }
-        return result;
+        return generateData(() -> new ContactDate()
+                .withFirstName(Common.randomString(5))
+                .withLastName(Common.randomString(5))
+                .withMiddleName(Common.randomString(5))
+                .withPhoto(randomFile("src/test/resources/images")));
+//        var result = new ArrayList<ContactDate>();
+//        for (int i = 0; i < count; i++) {
+//            result.add(new ContactDate()
+//                    .withFirstName(Common.randomString(i))
+//                    .withLastName(Common.randomString(i))
+//                    .withMiddleName(Common.randomString(i))
+//                    .withPhoto(randomFile("src/test/resources/images")));
+//        }
+//        return result;
     }
 
     private void save(Object data) throws IOException {

@@ -98,4 +98,19 @@ public class ContactCreationTests extends TestBase {
         Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
     }
 
+    @Test
+    public void addContactToGroup() {
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createContact(new ContactDate()
+                                            .withFirstName(Common.randomString(5))
+                                            .withLastName(Common.randomString(5)));
+        }
+        var group = app.hbm().getGroupList().get(0);
+        var contacts = app.hbm().getContactList();
+        var contact = contacts.get(0);
+        var oldRelated = app.hbm().getContactsInGroup(group);
+        app.contacts().addContactToGroup(contact, group);
+        var newRelated = app.hbm().getContactsInGroup(group);
+        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+    }
 }

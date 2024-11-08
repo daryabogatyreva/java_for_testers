@@ -2,9 +2,13 @@ package ru.stqu.collections;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CollectionTests {
 
@@ -30,5 +34,21 @@ public class CollectionTests {
         Assertions.assertEquals("a", list.get(0)); //проверка, что первый элемент списка = "а"
 
         list.set(0, "n"); //первый элемент списка изменен на значение "n"
+    }
+
+    @Test
+    void setTests(){
+        var set = new HashSet<>(List.of("a", "b", "c", "a"));
+        Assertions.assertEquals(3, set.size());
+        var element = set.stream().findAny().get();
+        set.add("a");
+    }
+
+    @Test
+    void testMap(){
+        var digits = new HashMap<Character, String>();
+        digits.put('1', "one");
+        digits.put('2', "two");
+        digits.put('3', "three");
     }
 }
