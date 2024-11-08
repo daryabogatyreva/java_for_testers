@@ -20,15 +20,15 @@ public class ContactRecord {
     public String photo;
     public String company = "компания";
     public String title = "название";
-    public String address = "-";
+    public String address;
     public String home;
     public String mobile;
     public String work;
     public String phone2;
     public String fax = "-";
-    public String email = "-";
-    public String email2 = "-";
-    public String email3 = "-";
+    public String email;
+    public String email2;
+    public String email3;
     public String homepage = "-";
 
     public ContactRecord() {
