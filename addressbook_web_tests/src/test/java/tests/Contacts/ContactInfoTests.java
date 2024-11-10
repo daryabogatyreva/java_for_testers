@@ -11,35 +11,36 @@ import java.util.stream.Stream;
 public class ContactInfoTests extends TestBase {
 
     @Test
-    void testPhones() {
+    void testContactInfo() {
         var contacts = app.hbm().getContactList();
-        var expected = contacts.stream().collect(Collectors.toMap(ContactDate::id, contact ->
-                Stream.of(contact.home(), contact.mobile(), contact.work(), contact.phone2())
-                      .filter(s -> s != null && !s.isEmpty())
-                      .collect(Collectors.joining("\n"))));
+        var expectedPhones = contacts.stream().collect(Collectors.toMap(ContactDate::id, ContactInfoTests::phonesStream));
+        var expectedAddress = contacts.stream().collect(Collectors.toMap(ContactDate::id, ContactInfoTests::addressStream));
+        var expectedEmails = contacts.stream().collect(Collectors.toMap(ContactDate::id, ContactInfoTests::emailsStream));
         var phones = app.contacts().getPhones();
-        Assertions.assertEquals(expected, phones);
-    }
-
-    @Test
-    void testAddress() {
-        var contacts = app.hbm().getContactList();
-        var expected = contacts.stream().collect(Collectors.toMap(ContactDate::id, contact ->
-                Stream.of(contact.address())
-                      .filter(s -> s != null && !s.isEmpty())
-                      .collect(Collectors.joining())));
         var address = app.contacts().getAddresses();
-        Assertions.assertEquals(expected, address);
+        var emails = app.contacts().getEmails();
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(expectedPhones, phones),
+                () -> Assertions.assertEquals(expectedAddress, address),
+                () -> Assertions.assertEquals(expectedEmails, emails)
+        );
     }
 
-    @Test
-    void testEmails() {
-        var contacts = app.hbm().getContactList();
-        var expected = contacts.stream().collect(Collectors.toMap(ContactDate::id, contact ->
-                Stream.of(contact.email(), contact.email2(), contact.email3())
-                      .filter(s -> s != null && !s.isEmpty())
-                      .collect(Collectors.joining("\n"))));
-        var emails = app.contacts().getEmails();
-        Assertions.assertEquals(expected, emails);
+    private static String phonesStream(ContactDate contact) {
+        return Stream.of(contact.home(), contact.mobile(), contact.work(), contact.phone2())
+                     .filter(s -> s != null && !s.isEmpty())
+                     .collect(Collectors.joining("\n"));
+    }
+
+    private static String addressStream(ContactDate contact) {
+        return Stream.of(contact.address())
+                     .filter(s -> s != null && !s.isEmpty())
+                     .collect(Collectors.joining());
+    }
+
+    private static String emailsStream(ContactDate contact) {
+        return Stream.of(contact.email(), contact.email2(), contact.email3())
+                     .filter(s -> s != null && !s.isEmpty())
+                     .collect(Collectors.joining("\n"));
     }
 }
