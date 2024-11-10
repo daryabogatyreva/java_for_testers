@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import static manager.ContactHelper.getContactDateComparator;
 
@@ -110,9 +111,11 @@ public class ContactCreationTests extends TestBase {
                                                  .withHeader(Common.randomString(5))
                                                  .withFooter(Common.randomString(5)));
         }
-        var group = app.hbm().getGroupList().get(0);
-        var contacts = app.hbm().getContactList();
-        var contact = contacts.get(0);
+        var rnd = new Random();
+        var groupIndex = rnd.nextInt(app.hbm().getGroupList().size());
+        var contactIndex = rnd.nextInt(app.hbm().getContactList().size());
+        var group = app.hbm().getGroupList().get(groupIndex);
+        var contact = app.hbm().getContactList().get(contactIndex);
         app.contacts().addContactToGroup(contact, group);
         Assertions.assertTrue(app.hbm().getContactsInGroup(group).contains(contact));
     }
