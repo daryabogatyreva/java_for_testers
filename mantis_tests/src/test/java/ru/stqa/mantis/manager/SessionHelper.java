@@ -1,5 +1,6 @@
 package ru.stqa.mantis.manager;
 
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 public class SessionHelper extends HelperBase {

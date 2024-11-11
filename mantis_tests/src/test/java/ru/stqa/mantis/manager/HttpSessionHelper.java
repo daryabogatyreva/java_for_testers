@@ -43,4 +43,15 @@ public class HttpSessionHelper extends HelperBase {
             return body.contains("<span class=\"user-info\">");
         }
     }
+
+    public boolean completeRegistration(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new RuntimeException("Unexpected code " + response);
+            String body = response.body().string();
+            return body.contains("account-update-form");
+        }
+    }
 }

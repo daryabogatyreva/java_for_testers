@@ -3,9 +3,9 @@ package ru.stqa.mantis.manager;
 import jakarta.mail.Flags;
 import jakarta.mail.Folder;
 import jakarta.mail.MessagingException;
-import jakarta.mail.NoSuchProviderException;
 import jakarta.mail.Session;
 import jakarta.mail.Store;
+import org.jetbrains.annotations.NotNull;
 import ru.stqa.mantis.model.MailMessage;
 
 import java.io.IOException;
@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 public class MailHelper extends HelperBase{
 
@@ -79,5 +80,13 @@ public class MailHelper extends HelperBase{
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public @NotNull String extractUrl(List<MailMessage> messages) {
+        var text = messages.get(0).content();
+        var pattern = Pattern.compile("http://\\S*");
+        var matcher = pattern.matcher(text);
+        matcher.find();
+        return text.substring(matcher.start(), matcher.end());
     }
 }

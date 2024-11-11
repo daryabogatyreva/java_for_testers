@@ -29,4 +29,8 @@ public class HelperBase {
         return !manager.driver().findElements(locator).isEmpty();
     }
 
+    protected void loadPage(String url) {
+        manager.driver().get(url);
+    }
+
 }
