@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+
 import static manager.ContactHelper.getContactDateComparator;
 
 public class ContactCreationTests extends TestBase {
@@ -59,18 +60,18 @@ public class ContactCreationTests extends TestBase {
         app.hbm().createContact(contact);
         var newContactList = app.hbm().getContactList();
         oldContactList = oldContactList.stream()
-                .map(c -> c.withPhoto(""))
-                .collect(Collectors.toList());
+                                       .map(c -> c.withPhoto(""))
+                                       .collect(Collectors.toList());
         newContactList = newContactList.stream()
-                .map(c -> c.withPhoto(""))
-                .collect(Collectors.toList());
+                                       .map(c -> c.withPhoto(""))
+                                       .collect(Collectors.toList());
         Comparator<ContactDate> compareById = getContactDateComparator();
         oldContactList.sort(compareById);
         newContactList.sort(compareById);
         var expectedList = new ArrayList<>(oldContactList);
         expectedList.add(contact
-                .withId(newContactList.get(newContactList.size() - 1).id())
-                .withPhoto(""));
+                                 .withId(newContactList.get(newContactList.size() - 1).id())
+                                 .withPhoto(""));
         Assertions.assertEquals(newContactList, expectedList);
     }
 
@@ -91,11 +92,11 @@ public class ContactCreationTests extends TestBase {
         oldRelated.sort(compareById);
         newRelated.sort(compareById);
         oldRelated = oldRelated.stream()
-                .map(c -> c.withPhoto(""))
-                .collect(Collectors.toList());
+                               .map(c -> c.withPhoto(""))
+                               .collect(Collectors.toList());
         newRelated = newRelated.stream()
-                .map(c -> c.withPhoto(""))
-                .collect(Collectors.toList());
+                               .map(c -> c.withPhoto(""))
+                               .collect(Collectors.toList());
         Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
     }
 
@@ -111,11 +112,34 @@ public class ContactCreationTests extends TestBase {
                                                  .withHeader(Common.randomString(5))
                                                  .withFooter(Common.randomString(5)));
         }
-        var rnd = new Random();
-        var groupIndex = rnd.nextInt(app.hbm().getGroupList().size());
-        var contactIndex = rnd.nextInt(app.hbm().getContactList().size());
-        var group = app.hbm().getGroupList().get(groupIndex);
-        var contact = app.hbm().getContactList().get(contactIndex);
+        var groups = app.hbm().getGroupList();
+        var contacts = app.hbm().getContactList();
+        ContactDate contact = null;
+        GroupDate group = null;
+        for (var g : groups) {
+            var contactsInGroup = app.hbm().getContactsInGroup(g);
+            contact = contacts.stream()
+                              .filter(c -> !contactsInGroup.contains(c))
+                              .findFirst()
+                              .orElse(null);
+            if (contact != null) {
+                group = g;
+                break;
+            }
+        }
+        if (contact == null) {
+            contact = new ContactDate().withFirstName(Common.randomString(5))
+                                       .withLastName(Common.randomString(5));
+            app.hbm().createContact(contact);
+            if (groups.isEmpty()) {
+                group = new GroupDate().withName(Common.randomString(5))
+                                       .withFooter(Common.randomString(5))
+                                       .withHeader(Common.randomString(5));
+                app.hbm().createGroup(group);
+            } else {
+                group = groups.get(0);
+            }
+        }
         app.contacts().addContactToGroup(contact, group);
         Assertions.assertTrue(app.hbm().getContactsInGroup(group).contains(contact));
     }
