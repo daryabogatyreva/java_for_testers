@@ -12,5 +12,4 @@ public class IssueCreationTests extends TestBase {
                                        .withDescription(Common.randomString(50))
                                        .withProject(1L));
     }
-
 }

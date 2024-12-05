@@ -2,6 +2,7 @@ package ru.stqa.mantis.manager;
 
 import jakarta.mail.Flags;
 import jakarta.mail.Folder;
+import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.Store;
@@ -21,11 +22,11 @@ public class MailHelper extends HelperBase{
         super(manager);
     }
 
-    public List<MailMessage> receive(String username, String password, Duration duration) {
+    public List<MailMessage> receive(String email, String password, Duration duration) {
         var start = System.currentTimeMillis();
         while(System.currentTimeMillis() < start+duration.toMillis()) {
             try {
-                var inbox = getInbox(username, password);
+                var inbox = getInbox(email, password);
                 inbox.open(Folder.READ_ONLY);
                 var messages = inbox.getMessages();
                 var result = Arrays.stream(messages).map(m -> {
