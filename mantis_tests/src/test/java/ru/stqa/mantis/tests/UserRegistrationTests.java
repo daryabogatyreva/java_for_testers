@@ -40,7 +40,7 @@ public class UserRegistrationTests extends TestBase {
     void canUserRegisterRest() throws IOException {
         var userName = Common.randomString(8);
         var email = String.format("%s@localhost", userName);
-        app.jamesCli().addUser(email, "password");
+        app.jamesApi().addUser(email, "password");
         UserData userData = new UserData().withRealName(Common.randomString(6))
                                          .withUserName(userName)
                                          .withPassword("password")
