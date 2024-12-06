@@ -25,7 +25,14 @@ public class ContactHelper extends HelperBase {
         return compareById;
     }
 
-    public void create(ContactDate contact, GroupDate group) {
+    public void create(ContactDate contact) {
+        openNewContactPage();
+        fillContactForm(contact);
+        submitContactCreation();
+        openHomePage();
+    }
+
+    public void createInGroup(ContactDate contact, GroupDate group) {
         openNewContactPage();
         fillContactForm(contact);
         selectGroup(group);
@@ -69,7 +76,6 @@ public class ContactHelper extends HelperBase {
         type(By.name("middlename"), contact.middleName());
         type(By.name("lastname"), contact.lastName());
         type(By.name("nickname"), contact.nickName());
-        attach(By.name("photo"), contact.photo());
     }
 
     private void openNewContactPage() {

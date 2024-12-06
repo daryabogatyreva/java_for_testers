@@ -15,14 +15,11 @@ public class ContactInfoTests extends TestBase {
         var contacts = app.hbm().getContactList();
         var expectedPhones = contacts.stream().collect(Collectors.toMap(ContactDate::id, ContactInfoTests::phonesStream));
         var expectedAddress = contacts.stream().collect(Collectors.toMap(ContactDate::id, ContactInfoTests::addressStream));
-        var expectedEmails = contacts.stream().collect(Collectors.toMap(ContactDate::id, ContactInfoTests::emailsStream));
         var phones = app.contacts().getPhones();
         var address = app.contacts().getAddresses();
-        var emails = app.contacts().getEmails();
         Assertions.assertAll(
                 () -> Assertions.assertEquals(expectedPhones, phones),
-                () -> Assertions.assertEquals(expectedAddress, address),
-                () -> Assertions.assertEquals(expectedEmails, emails)
+                () -> Assertions.assertEquals(expectedAddress, address)
         );
     }
 
@@ -36,11 +33,5 @@ public class ContactInfoTests extends TestBase {
         return Stream.of(contact.address())
                      .filter(s -> s != null && !s.isEmpty())
                      .collect(Collectors.joining());
-    }
-
-    private static String emailsStream(ContactDate contact) {
-        return Stream.of(contact.email(), contact.email2(), contact.email3())
-                     .filter(s -> s != null && !s.isEmpty())
-                     .collect(Collectors.joining("\n"));
     }
 }

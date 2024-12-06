@@ -71,15 +71,11 @@ public class HibernateHelper extends HelperBase {
                                record.lastname,
                                record.middlename,
                                record.nickname,
-                               record.photo,
                                record.home,
                                record.mobile,
                                record.work,
                                record.phone2,
-                               record.address,
-                               record.email,
-                               record.email2,
-                               record.email3);
+                               record.address);
     }
 
     private static ContactRecord convert(ContactDate data) {

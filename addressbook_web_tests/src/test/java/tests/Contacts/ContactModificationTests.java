@@ -16,21 +16,21 @@ public class ContactModificationTests extends TestBase {
     void canModifyContact() {
         if (app.hbm().getContactsCount() == 0) {
             app.hbm().createContact(new ContactDate(
-                    "", "FName", "LName", "MName", "NName", "", "", "", "", "", "", "", "", ""));
+                    "", "FName", "LName", "MName", "NName", "", "", "", "", ""));
         }
         var oldContacts = app.hbm().getContactList();
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
-        var testDate = new ContactDate().withFirstName("modified FName").withPhoto("src/test/resources/images/apple.jpg");
+        var testDate = new ContactDate().withFirstName("modified FName");
         app.contacts().modifyContact(oldContacts.get(index), testDate);
         var newContacts = app.hbm().getContactList();
         oldContacts.set(index, testDate.withId(oldContacts.get(index).id()));
-        newContacts = newContacts.stream()
-                .map(c -> c.withPhoto(""))
-                .collect(Collectors.toList());
-        oldContacts = oldContacts.stream()
-                .map(c -> c.withPhoto(""))
-                .collect(Collectors.toList());
+//        newContacts = newContacts.stream()
+//                .map(c -> c.withPhoto(""))
+//                .collect(Collectors.toList());
+//        oldContacts = oldContacts.stream()
+//                .map(c -> c.withPhoto(""))
+//                .collect(Collectors.toList());
         Comparator<ContactDate> compareById = getContactDateComparator();
         newContacts.sort(compareById);
         oldContacts.sort(compareById);

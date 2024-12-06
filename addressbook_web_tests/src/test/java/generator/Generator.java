@@ -83,8 +83,7 @@ public class Generator {
         return generateData(() -> new ContactDate()
                 .withFirstName(Common.randomString(5))
                 .withLastName(Common.randomString(5))
-                .withMiddleName(Common.randomString(5))
-                .withPhoto(randomFile("src/test/resources/images")));
+                .withMiddleName(Common.randomString(5)));
 //        var result = new ArrayList<ContactDate>();
 //        for (int i = 0; i < count; i++) {
 //            result.add(new ContactDate()

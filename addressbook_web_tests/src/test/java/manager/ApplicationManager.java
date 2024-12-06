@@ -13,7 +13,7 @@ public class ApplicationManager {
     protected WebDriver driver;
     private LoginHelper session;
     private GroupHelper groups;
-    private ContactHelper contacts;
+    public ContactHelper contacts;
     private Properties properties;
     private JdbcHelper jdbc;
     private HibernateHelper hbm;
