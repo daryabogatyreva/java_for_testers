@@ -3,6 +3,7 @@ package tests.Contacts;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.Common;
+import io.qameta.allure.Allure;
 import manager.ApplicationManager;
 import model.ContactDate;
 import model.GroupDate;
@@ -46,7 +47,7 @@ public class ContactCreationTests extends TestBase {
         var expectedList = new ArrayList<>(oldContactList);
         expectedList.add(contact
                                  .withId(newContactList.get(newContactList.size() - 1).id()));
-        Assertions.assertEquals(newContactList, expectedList);
+        Allure.step("Validating results", step -> {Assertions.assertEquals(newContactList, expectedList);});
     }
 
     //        oldContactList = oldContactList.stream()

@@ -1,5 +1,6 @@
 package manager;
 
+import io.qameta.allure.Step;
 import model.ContactDate;
 import model.GroupDate;
 import org.openqa.selenium.By;
@@ -25,6 +26,7 @@ public class ContactHelper extends HelperBase {
         return compareById;
     }
 
+    @Step
     public void create(ContactDate contact) {
         openNewContactPage();
         fillContactForm(contact);

@@ -1,6 +1,7 @@
 package manager;
 
 
+import io.qameta.allure.Step;
 import model.ContactDate;
 import model.GroupDate;
 import org.hibernate.SessionFactory;
@@ -96,6 +97,7 @@ public class HibernateHelper extends HelperBase {
         });
     }
 
+    @Step
     public List<ContactDate> getContactList() {
         return convertContactList(sessionFactory.fromSession(session -> {
             return session.createQuery("from ContactRecord", ContactRecord.class).list();
